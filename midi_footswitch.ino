@@ -7,20 +7,44 @@ const byte MIDI_CC = 4; // 4 = Foot Pedal; https://anotherproducer.com/online-to
 const byte MIDI_MIN = 0;
 const byte MIDI_MAX = 127;
 
+int digitalInputPin = 3;
+bool state = false;
+
+unsigned long state_time = 0;
+unsigned long last_state_time = 0;
+
+////////////////////////////////////
+
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(digitalInputPin, INPUT_PULLUP);
+
+  attachInterrupt(
+    digitalPinToInterrupt(digitalInputPin),
+    toggleMidiCc,
+    HIGH
+  );
+}
+
+void toggleMidiCc() {
+  state_time = millis();
+
+  if (state_time - last_state_time < 100) { return; } // debouncing
+
+  state = !state;
+
+  if (state) {
+    controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MAX);
+  } else {
+    controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MIN);
+  }
+
+  MidiUSB.flush();
+
+  last_state_time = state_time;
 }
 
 void loop() {
-  controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MAX); // Set the value of controller 10 on channel 0 to 65
-  MidiUSB.flush();
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1500);
-
-  controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MIN); // Set the value of controller 10 on channel 0 to 65
-  MidiUSB.flush();
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1500);
+  return;
 }
 
 // First parameter is the event type (0x0B = control change).
@@ -28,9 +52,7 @@ void loop() {
 // Third parameter is the control number number (0-119).
 // Fourth parameter is the control value (0-127).
 void controlChange(byte channel, byte control, byte value) {
-
   midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
-
   MidiUSB.sendMIDI(event);
 }
 
