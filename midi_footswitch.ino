@@ -2,24 +2,25 @@
 
 #include "MIDIUSB.h"
 
-const byte MIDI_CHANNEL = 0;
-const byte MIDI_CC = 4; // 4 = Foot Pedal; https://anotherproducer.com/online-tools-for-musicians/midi-cc-list/
-const byte MIDI_MIN = 0;
-const byte MIDI_MAX = 127;
+const int INTERRUPT_PIN = 3;
 
-int digitalInputPin = 3;
+const byte MIDI_CHANNEL = 0;
+const byte MIDI_CC      = 4; // 4 = Foot Pedal; https://anotherproducer.com/online-tools-for-musicians/midi-cc-list/
+const byte MIDI_MIN     = 0;
+const byte MIDI_MAX     = 127;
+
+////////////////////////////////////
+
 bool state = false;
 
 unsigned long state_time = 0;
 unsigned long last_state_time = 0;
 
-////////////////////////////////////
-
 void setup() {
-  pinMode(digitalInputPin, INPUT_PULLUP);
+  pinMode(INTERRUPT_PIN, INPUT_PULLUP);
 
   attachInterrupt(
-    digitalPinToInterrupt(digitalInputPin),
+    digitalPinToInterrupt(INTERRUPT_PIN),
     toggleMidiCc,
     HIGH
   );
@@ -55,4 +56,5 @@ void controlChange(byte channel, byte control, byte value) {
   midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
+
 
