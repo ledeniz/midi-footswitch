@@ -1,60 +1,75 @@
-// This was used as a starting point: https://github.com/arduino-libraries/MIDIUSB/blob/master/examples/MIDIUSB_write/MIDIUSB_write.ino
+// MIDI Footswitch
+// https://github.com/ledeniz/midi-footswitch
+//
+// Based on https://github.com/arduino-libraries/MIDIUSB/blob/master/examples/MIDIUSB_write/MIDIUSB_write.ino
 
 #include "MIDIUSB.h"
 
-const int INTERRUPT_PIN = 3;
-
-const byte MIDI_CHANNEL = 0;
-const byte MIDI_CC      = 4; // 4 = Foot Pedal; https://anotherproducer.com/online-tools-for-musicians/midi-cc-list/
-const byte MIDI_MIN     = 0;
-const byte MIDI_MAX     = 127;
-
+// Configuration ////////////////////
+const bool MOMENTARY     = false; // act as a momentary switch (true) or push button (false)
+                                  //
+const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
+const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal; https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
+const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
+const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
+                                  //
+const int  INTERRUPT_PIN = 3;     // pin number the pedal is connected to
+const int  TRIGGER_LIMIT = 250;   // (debouncing) threshold for allowing the next trigger to occur, in milliseconds
 ////////////////////////////////////
 
 bool state = false;
-
+bool last_state = false;
 unsigned long state_time = 0;
 unsigned long last_state_time = 0;
+bool momentary_latch = false;
+
+////////////////////////////////////
 
 void setup() {
   pinMode(INTERRUPT_PIN, INPUT_PULLUP);
 
   attachInterrupt(
     digitalPinToInterrupt(INTERRUPT_PIN),
-    toggleMidiCc,
-    HIGH
+    buttonInterrupt,
+    CHANGE
   );
 }
 
-void toggleMidiCc() {
+void buttonInterrupt() {
   state_time = millis();
 
-  if (state_time - last_state_time < 100) { return; } // debouncing
+  if (state_time - last_state_time < TRIGGER_LIMIT) { return; } // ignore interrupt if below threshold
+  last_state_time = state_time;
+
+  if (MOMENTARY && momentary_latch) { momentary_latch = false; return; } // momentary logic: if latched, ignore event but unlatch
+  momentary_latch = true;
 
   state = !state;
+}
 
+////////////////////////////////////
+
+void loop() { 
+  if (state != last_state) {
+    last_state = state;
+    sendMidi();
+  }
+}
+
+void sendMidi() {
   if (state) {
-    controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MAX);
+    sendControlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MAX);
   } else {
-    controlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MIN);
+    sendControlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MIN);
   }
 
   MidiUSB.flush();
-
-  last_state_time = state_time;
 }
 
-void loop() {
-  return;
-}
-
-// First parameter is the event type (0x0B = control change).
-// Second parameter is the event type, combined with the channel.
-// Third parameter is the control number number (0-119).
-// Fourth parameter is the control value (0-127).
-void controlChange(byte channel, byte control, byte value) {
+// `channel` - midi channel number (0-15)
+// `control` - control function number (0-119)
+// `value`   - value for control function (0-127)
+void sendControlChange(byte channel, byte control, byte value) {
   midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
-
-
