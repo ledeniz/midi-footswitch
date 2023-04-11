@@ -14,8 +14,8 @@ const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = S
 const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
 const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
                                   //
-const int  INTERRUPT_PIN = 3;     // Pin number the pedal is connected to
-const int  TRIGGER_LIMIT = 30;    // (Debouncing) Threshold for allowing the next trigger to occur, in milliseconds
+const int  INPUT_PIN     = 3;     // Pin number the jack tip is connected to
+const int  DEBOUNCE_MS   = 30;    // Threshold for when to allow the next trigger, in milliseconds
 ////////////////////////////////////
 
 bool state = LOW;
@@ -28,11 +28,11 @@ bool momentary_state = HIGH;
 bool momentary_latch = false;
 
 void setup() {
-  pinMode(INTERRUPT_PIN, INPUT_PULLUP);
+  pinMode(INPUT_PIN, INPUT_PULLUP);
 }
 
 void loop() {
-  state = digitalRead(INTERRUPT_PIN);
+  state = digitalRead(INPUT_PIN);
   long unsigned t = millis();
   long unsigned delta = state_time - t;
 
@@ -41,7 +41,7 @@ void loop() {
     momentary_state= !momentary_state;
   }
 
-  if (delta > TRIGGER_LIMIT) {
+  if (delta > DEBOUNCE_MS) {
     state_time = t;
 
     if (state != last_state) {
