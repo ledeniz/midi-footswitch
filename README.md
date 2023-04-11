@@ -13,13 +13,15 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
 - [x] Reading from digital input
   - [x] Fix Debouncing
   - [x] Configuration as momentary vs switch 
-  - [ ] Use a stereo input jack for dual buttons
 - [x] Clean up the code
   - [x] Changing channel, CC number, etc should be easy to customize
-  - [ ] Make code compatible for mono and stereo jack?
 - [x] Prototype a 3D printable case
-  - [ ] Design a nice 3D printable case
-- [ ] Add schematics to repo
+  
+### Future plans
+- [ ] Use a stereo input jack for dual buttons
+  - [ ] Bonus points for keeping the code compatible with mono jacks as well
+- [ ] Design a *nice* 3D printable case
+- [ ] Add schematics to this repo
 
 ## Hardware needed
 - arduino board with native USB port functionality (Zero, Due, 101, Micro, Leonardo)
@@ -28,7 +30,7 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
 - a simple footswitch or sustain pedal
 
 ### Wiring
-I will upload proper schematics sometime but it's really simple: connect sleeve to ground and the tip to a pin with digital input capability. Be aware to not use a shunt contact if one is present on your jack.
+Connect sleeve to ground and the tip to a pin with digital input capability. Be aware to not use a shunt contact if one is present on your jack.
 
 <a href="./img/midi-3.jpg"><img src="./img/midi-3.jpg" width=350 alt="Photo of the prototype enclosure 3D printed and wired" /></a>
 
