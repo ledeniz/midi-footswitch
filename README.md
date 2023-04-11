@@ -70,4 +70,4 @@ At this point I consider the prototype as finished as I imagined it in the begin
 - [ ] Add schematics to this repo
 
 ## License
-[This document](./README) and [the source code](./midi_footswitch.ino) is licensed under the [GPL v3](./LICENSE). The STL files are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+[This document](./README), the [images](./img/) and [the source code](./midi_footswitch.ino) is licensed under the [GPL v3](./LICENSE). The STL files are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
