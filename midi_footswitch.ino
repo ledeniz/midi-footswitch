@@ -5,8 +5,8 @@
 
 #include "MIDIUSB.h"
 
-// Configuration ////////////////////
-const bool MOMENTARY     = false; // act as a momentary switch (true) or push button (false)
+// Configuration ///////////////////
+const bool MOMENTARY     = true; // act as a momentary switch (true) or push button (false)
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
 const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal; https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
@@ -14,50 +14,47 @@ const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
 const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
                                   //
 const int  INTERRUPT_PIN = 3;     // pin number the pedal is connected to
-const int  TRIGGER_LIMIT = 250;   // (debouncing) threshold for allowing the next trigger to occur, in milliseconds
+const int  TRIGGER_LIMIT = 30;    // (debouncing) threshold for allowing the next trigger to occur, in milliseconds
 ////////////////////////////////////
 
-bool state = false;
-bool last_state = false;
+bool state = LOW;
+bool last_state = HIGH;
 unsigned long state_time = 0;
-unsigned long last_state_time = 0;
-bool momentary_latch = false;
 
-////////////////////////////////////
+bool momentary_state = HIGH;
+bool momentary_latch = false;
 
 void setup() {
   pinMode(INTERRUPT_PIN, INPUT_PULLUP);
-
-  attachInterrupt(
-    digitalPinToInterrupt(INTERRUPT_PIN),
-    buttonInterrupt,
-    CHANGE
-  );
 }
 
-void buttonInterrupt() {
-  state_time = millis();
+void loop() {
+  state = digitalRead(INTERRUPT_PIN);
+  long unsigned t = millis();
+  long unsigned delta = state_time - t;
 
-  if (state_time - last_state_time < TRIGGER_LIMIT) { return; } // ignore interrupt if below threshold
-  last_state_time = state_time;
+  if (delta > TRIGGER_LIMIT) {
+    state_time = t;
 
-  if (MOMENTARY && momentary_latch) { momentary_latch = false; return; } // momentary logic: if latched, ignore event but unlatch
-  momentary_latch = true;
+    if (state != last_state) {
+      last_state = state;
 
-  state = !state;
-}
+      if (MOMENTARY) {
+        if (momentary_latch) {
+          sendMidi(momentary_state);
+          momentary_state = !momentary_state;
+        }
 
-////////////////////////////////////
-
-void loop() { 
-  if (state != last_state) {
-    last_state = state;
-    sendMidi();
+        momentary_latch = !momentary_latch;
+      } else {
+        sendMidi(state);
+      }
+    }
   }
 }
 
-void sendMidi() {
-  if (state) {
+void sendMidi(bool _state) {
+  if (_state) {
     sendControlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MAX);
   } else {
     sendControlChange(MIDI_CHANNEL, MIDI_CC, MIDI_MIN);
