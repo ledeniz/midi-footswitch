@@ -1,10 +1,8 @@
 # MIDI Footswitch
-> ⚠️ Work In Progress
 
 <a href="./img/midi-2.jpg"><img src="./img/midi-2.jpg" width=220 alt="Photo of a prototype enclosed and in use" /></a>
 <a href="./img/midi-1.jpg"><img src="./img/midi-1.jpg" width=370 alt="Photo of a prototype enclosed with the top of the enclosure removed" /></a>
 
-> ⚠️ Work In Progress
 ## Description
 The goal of this project is to build a device, where [a simple footswitch](https://archive.is/ykACL/2fbe0dc294888a247c4ef17947f29507e65076bb.jpg) or sustain pedal can be plugged into, and then sends a MIDI message over USB, triggered by using the pedal.
 
@@ -15,7 +13,7 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
 - [x] Reading from digital input
   - [x] Fix Debouncing
   - [x] Configuration as momentary vs switch 
-  - [ ] Use a stereo input jack for dual buttons?
+  - [ ] Use a stereo input jack for dual buttons
 - [x] Clean up the code
   - [x] Changing channel, CC number, etc should be easy to customize
   - [ ] Make code compatible for mono and stereo jack?
