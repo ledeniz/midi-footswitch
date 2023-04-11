@@ -1,5 +1,5 @@
 /* MIDI Footswitch v1.0-rc1
- * https://github.com/ledeniz/midi-footswitch
+ * https://github.com/ledeniz/midi-footswitch-converter
  *
  * Author: Deniz Erdogan
  *
