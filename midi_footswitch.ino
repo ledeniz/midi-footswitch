@@ -6,16 +6,16 @@
 #include "MIDIUSB.h"
 
 // Configuration ///////////////////
-const bool MOMENTARY     = false; // act as a momentary switch (true) or push button (false)
-const bool INVERT        = false; // inverts output values
+const bool MOMENTARY     = false; // Act as a momentary switch (true) or push button (false)
+const bool INVERT        = false; // Inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
 const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal; https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
 const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
 const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
                                   //
-const int  INTERRUPT_PIN = 3;     // pin number the pedal is connected to
-const int  TRIGGER_LIMIT = 30;    // (debouncing) threshold for allowing the next trigger to occur, in milliseconds
+const int  INTERRUPT_PIN = 3;     // Pin number the pedal is connected to
+const int  TRIGGER_LIMIT = 30;    // (Debouncing) Threshold for allowing the next trigger to occur, in milliseconds
 ////////////////////////////////////
 
 bool state = LOW;
