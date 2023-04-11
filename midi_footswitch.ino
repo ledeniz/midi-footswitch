@@ -26,8 +26,6 @@ bool state = LOW;
 bool last_state = HIGH;
 unsigned long state_time = 0;
 
-bool invert = false;
-
 bool momentary_state = HIGH;
 bool momentary_latch = false;
 
@@ -40,7 +38,7 @@ void loop() {
   long unsigned t = millis();
   long unsigned delta = state_time - t;
 
-  if (invert) {
+  if (INVERT) {
     state = !state;
     momentary_state= !momentary_state;
   }
