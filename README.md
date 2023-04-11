@@ -8,31 +8,25 @@ The goal of this project is to build a device, where [a simple footswitch](https
 
 This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-libraries/MIDIUSB).
 
-## Progress
-- [x] Basic plug & play MIDI IO POC works
-- [x] Reading from digital input
-  - [x] Fix Debouncing
-  - [x] Configuration as momentary vs switch 
-- [x] Clean up the code
-  - [x] Changing channel, CC number, etc should be easy to customize
-- [x] Prototype a 3D printable case
-  
-### Future plans
-- [ ] Use a stereo input jack for dual buttons
-  - [ ] Bonus points for keeping the code compatible with mono jacks as well
-- [ ] Design a *nice* 3D printable case
-- [ ] Add schematics to this repo
+### Features
+- Acts as a native USB MIDI device
+- MIDI channel, CC number and on/off values can be configured
+- Mode switch for use as a momentary switch available
+- Output values can be inverted
 
-## Hardware needed
-- arduino board with native USB port functionality (Zero, Due, 101, Micro, Leonardo)
+See the section [Configuration](#configuration) for all supported settings.
+
+## Building it
+### Hardware needed
+- 1x arduino board with native USB port functionality (Zero, Due, 101, Micro, Leonardo)
   - (I used a Sparkfun Pro Micro clone)
-- mono or stereo 1/4inch input jack
-- a simple footswitch or sustain pedal
+- 1x mono or stereo 1/4inch input jack
+- 1x simple footswitch or sustain pedal
 
 ### Wiring
 Connect sleeve to ground and the tip to a pin with digital input capability. Be aware to not use a shunt contact if one is present on your jack.
 
-<a href="./img/midi-3.jpg"><img src="./img/midi-3.jpg" width=350 alt="Photo of the prototype enclosure 3D printed and wired" /></a>
+<a href="./img/midi-3.jpg"><img src="./img/midi-3.jpg" width=350 alt="Photo of a prototype enclosure 3D printed and wired" /></a>
 
 ### Enclosure
 [STLs](/stl/) /
@@ -42,9 +36,9 @@ Connect sleeve to ground and the tip to a pin with digital input capability. Be 
 Currently this is just a rough prototype, but it works ;) (I'm currently trying to learn CAD; I may update the models in in the future)
 
 ## Configuration
-The device configuration is currently hard-coded. At the top of the sketch, you can find this configuration block: 
+The device configuration is hard-coded. At the top of the sketch, you can find this configuration block: 
 ```cpp
-// Configuration ///////////////////
+////////// Configuration ///////////
 const bool MOMENTARY     = false; // Act as a momentary switch (true) or push button (false)
 const bool INVERT        = false; // Inverts output values
                                   //
@@ -53,10 +47,27 @@ const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = S
 const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
 const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
                                   //
-const int  INTERRUPT_PIN = 3;     // Pin number the pedal is connected to
-const int  TRIGGER_LIMIT = 30;    // (Debouncing) Threshold for allowing the next trigger to occur, in milliseconds
+const int  INPUT_PIN     = 3;     // Pin number the jack tip is connected to
+const int  DEBOUNCE_MS   = 30;    // Threshold for when to allow the next trigger, in milliseconds
 ////////////////////////////////////
 ```
+
+## Roadmap
+- [x] Basic plug & play MIDI IO POC works
+- [x] Reading from digital input
+  - [x] Fix Debouncing
+  - [x] Configuration as momentary switch vs push button 
+- [x] Clean up the code
+  - [x] Changing channel, CC number, etc should be easy to customize
+- [x] Prototype a 3D printable case
+
+### Possible future plans
+At this point I consider the prototype as finished as I imagined it in the beginning. It does what I wanted and it seems to works reliably. I will now enter a testing phase and see what I want to improve in the future. I gathered some ideas below.
+
+- [ ] Use a stereo input jack for dual buttons
+  - [ ] Bonus points for keeping the code compatible with mono jacks as well
+- [ ] Design a *nice* 3D printable case
+- [ ] Add schematics to this repo
 
 ## License
 [This document](./README) and [the source code](./midi_footswitch.ino) is licensed under the [GPL v3](./LICENSE). The STL files are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
