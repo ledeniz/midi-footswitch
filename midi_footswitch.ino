@@ -5,7 +5,7 @@
 
 #include "MIDIUSB.h"
 
-// Configuration ///////////////////
+////////// Configuration ///////////
 const bool MOMENTARY     = false; // Act as a momentary switch (true) or push button (false)
 const bool INVERT        = false; // Inverts output values
                                   //
