@@ -6,7 +6,8 @@
 #include "MIDIUSB.h"
 
 // Configuration ///////////////////
-const bool MOMENTARY     = true; // act as a momentary switch (true) or push button (false)
+const bool MOMENTARY     = false; // act as a momentary switch (true) or push button (false)
+const bool INVERT        = false; // inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
 const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal; https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
@@ -21,6 +22,8 @@ bool state = LOW;
 bool last_state = HIGH;
 unsigned long state_time = 0;
 
+bool invert = false;
+
 bool momentary_state = HIGH;
 bool momentary_latch = false;
 
@@ -33,6 +36,11 @@ void loop() {
   long unsigned t = millis();
   long unsigned delta = state_time - t;
 
+  if (invert) {
+    state = !state;
+    momentary_state= !momentary_state;
+  }
+
   if (delta > TRIGGER_LIMIT) {
     state_time = t;
 
@@ -40,7 +48,7 @@ void loop() {
       last_state = state;
 
       if (MOMENTARY) {
-        if (momentary_latch) {
+        if (!momentary_latch) {
           sendMidi(momentary_state);
           momentary_state = !momentary_state;
         }
