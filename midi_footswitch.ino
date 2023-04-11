@@ -1,7 +1,11 @@
-// MIDI Footswitch
-// https://github.com/ledeniz/midi-footswitch
-//
-// Based on https://github.com/arduino-libraries/MIDIUSB/blob/master/examples/MIDIUSB_write/MIDIUSB_write.ino
+/* MIDI Footswitch v1.0-rc1
+ * https://github.com/ledeniz/midi-footswitch
+ *
+ * Author: Deniz Erdogan
+ *
+ * Based on https://github.com/arduino-libraries/MIDIUSB/blob/master/examples/MIDIUSB_write/MIDIUSB_write.ino
+ * Licensed under GPLv3: https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
 
 #include "MIDIUSB.h"
 
