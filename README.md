@@ -10,9 +10,9 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
 
 ### Features
 - Acts as a native USB MIDI device
-- MIDI channel, CC number and on/off values can be configured
-- Mode switch for use as a momentary switch available
-- Output values can be inverted
+- Configurable MIDI channel, CC number and on/off values
+- Toggle Switch mode
+- Invert Setting
 
 See the section [Configuration](#configuration) for all supported settings.
 
@@ -39,7 +39,7 @@ Currently this is just a rough prototype, but it works ;) (I'm currently trying 
 The device configuration is hard-coded. At the top of the sketch, you can find this configuration block: 
 ```cpp
 ////////// Configuration ///////////
-const bool MOMENTARY     = false; // Act as a momentary switch (true) or push button (false)
+const bool TOGGLE        = true;  // Act as a momentary switch (false) or toggle switch (true)
 const bool INVERT        = false; // Inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
@@ -64,6 +64,7 @@ const int  DEBOUNCE_MS   = 30;    // Threshold for when to allow the next trigge
 ### Possible future plans
 At this point I consider the prototype as finished as I imagined it in the beginning. It does what I wanted and it seems to works reliably. I will now enter a testing phase and see what I want to improve in the future. I gathered some ideas below.
 
+- [ ] Add functionality for sending note on/off instead of CC messages
 - [ ] Use a stereo input jack for dual buttons
   - [ ] Bonus points for keeping the code compatible with mono jacks as well
 - [ ] Design a *nice* 3D printable case

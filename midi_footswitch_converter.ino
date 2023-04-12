@@ -10,7 +10,7 @@
 #include "MIDIUSB.h"
 
 ////////// Configuration ///////////
-const bool MOMENTARY     = false; // Act as a momentary switch (true) or push button (false)
+const bool TOGGLE        = true;  // Act as a momentary switch (false) or toggle switch (true)
 const bool INVERT        = false; // Inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
@@ -26,8 +26,8 @@ bool state = LOW;
 bool last_state = HIGH;
 unsigned long state_time = 0;
 
-bool momentary_state = HIGH;
-bool momentary_latch = false;
+bool toggle_state = HIGH;
+bool toggle_latch = true;
 
 void setup() {
   pinMode(INPUT_PIN, INPUT_PULLUP);
@@ -38,24 +38,24 @@ void loop() {
   long unsigned t = millis();
   long unsigned delta = state_time - t;
 
-  if (INVERT) {
-    state = !state;
-    momentary_state= !momentary_state;
-  }
-
   if (delta > DEBOUNCE_MS) {
     state_time = t;
 
     if (state != last_state) {
       last_state = state;
 
-      if (MOMENTARY) {
-        if (!momentary_latch) {
-          sendMidi(momentary_state);
-          momentary_state = !momentary_state;
+    if (INVERT) {
+      state = !state;
+      toggle_state= !toggle_state;
+    }
+
+      if (TOGGLE) {
+        if (!toggle_latch) {
+          sendMidi(toggle_state);
+          toggle_state = !toggle_state;
         }
 
-        momentary_latch = !momentary_latch;
+        toggle_latch = !toggle_latch;
       } else {
         sendMidi(state);
       }
