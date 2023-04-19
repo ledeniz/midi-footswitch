@@ -10,7 +10,7 @@
 #include "MIDIUSB.h"
 
 ////////// Configuration ///////////
-const bool TOGGLE        = true;  // Act as a momentary switch (false) or toggle switch (true)
+const bool TOGGLE        = false;  // Act as a momentary switch (false) or toggle switch (true)
 const bool INVERT        = false; // Inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based

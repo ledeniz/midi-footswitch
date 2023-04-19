@@ -19,7 +19,7 @@ See the section [Configuration](#configuration) for all supported settings.
 ## Building it
 ### Hardware needed
 - 1x arduino board with native USB port functionality (Zero, Due, 101, Micro, Leonardo)
-  - (I used a Sparkfun Pro Micro clone)
+  - (I used a Sparkfun Pro Micro clone) ([aliexpress](https://archive.is/I7Rhd))
 - 1x mono or stereo 1/4inch input jack
 - 1x simple footswitch or sustain pedal
 
@@ -39,7 +39,7 @@ Currently this is just a rough prototype, but it works ;) (I'm currently trying 
 The device configuration is hard-coded. At the top of the sketch, you can find this configuration block: 
 ```cpp
 ////////// Configuration ///////////
-const bool TOGGLE        = true;  // Act as a momentary switch (false) or toggle switch (true)
+const bool TOGGLE        = false;  // Act as a momentary switch (false) or toggle switch (true)
 const bool INVERT        = false; // Inverts output values
                                   //
 const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
