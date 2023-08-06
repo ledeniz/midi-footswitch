@@ -80,3 +80,6 @@ void sendControlChange(byte channel, byte control, byte value) {
   midiEventPacket_t event = {0x0B, 0xB0 | channel, control, value};
   MidiUSB.sendMIDI(event);
 }
+
+void sendNoteOn() {}
+void sendNoteOff() {}
