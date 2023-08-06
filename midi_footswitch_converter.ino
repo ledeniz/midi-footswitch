@@ -1,4 +1,4 @@
-/* MIDI Footswitch Converter v1.0
+/* MIDI Footswitch Converter v1.1
  * https://github.com/ledeniz/midi-footswitch-converter
  *
  * Author: Deniz Erdogan
