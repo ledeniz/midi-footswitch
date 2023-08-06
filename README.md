@@ -11,6 +11,7 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
 ### Features
 - Acts as a native USB MIDI device
 - Configurable MIDI channel, CC number and on/off values
+  - Note mode available: send a MIDI Note On/Off message (with or without CC)
 - Toggle Switch mode
 - Invert Setting
 
