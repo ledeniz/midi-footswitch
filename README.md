@@ -38,18 +38,39 @@ Currently this is just a rough prototype, but it works ;) (I'm currently trying 
 ## Configuration
 The device configuration is hard-coded. At the top of the sketch, you can find this configuration block: 
 ```cpp
-////////// Configuration ///////////
-const bool TOGGLE        = false;  // Act as a momentary switch (false) or toggle switch (true)
-const bool INVERT        = false; // Inverts output values
-                                  //
-const byte MIDI_CHANNEL  = 0;     // MIDI channel 1-16, zero based
-const byte MIDI_CC       = 64;    // MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal; https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
-const byte MIDI_MIN      = 0;     // MIDI value for state 'off' (0-127)
-const byte MIDI_MAX      = 127;   // MIDI value for state 'on' (0-127)
-                                  //
-const int  INPUT_PIN     = 3;     // Pin number the jack tip is connected to
-const int  DEBOUNCE_MS   = 30;    // Threshold for when to allow the next trigger, in milliseconds
-////////////////////////////////////
+//////// Configuration section 
+// CC mode:   `MODE = MODE_CC` 
+// Note mode: `MODE = MODE_NOTE`
+// Both:      `MODE = MODE_CC | NOTE_NOTE`
+const unsigned short MODE = MODE_NOTE; 
+
+// Act as a momentary switch (false) or toggle switch (true)
+const bool TOGGLE = true;
+// Inverts output values
+const bool INVERT = true;
+
+// MIDI channel 1-16, zero based
+const byte MIDI_CHANNEL = 0;
+
+// MIDI CC number. 4 = Foot Controller; 64 = Sustain Pedal
+// https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
+const byte MIDI_CC = 64;
+// MIDI value for state 'off' (0-127)
+const byte MIDI_CC_MIN = 0;
+// MIDI value for state 'on' (0-127)
+const byte MIDI_CC_MAX = 127;
+
+// MIDI note pitch value (0-127; 48 = middle C)
+const byte MIDI_NOTE = 48;
+// MIDI note velocity value (64 = normal, 127 = fastest)
+const byte MIDI_NOTE_VELOCITY = 100;
+
+// Pin number the jack tip is connected to
+const int  INPUT_PIN = 3;
+// Threshold for when to allow the next trigger, in milliseconds
+const int  DEBOUNCE_MS = 30;
+
+//////// END of Configuration section
 ```
 
 ## Roadmap
@@ -64,11 +85,13 @@ const int  DEBOUNCE_MS   = 30;    // Threshold for when to allow the next trigge
 ### Possible future plans
 At this point I consider the prototype as finished as I imagined it in the beginning. It does what I wanted and it seems to works reliably. I will now enter a testing phase and see what I want to improve in the future. I gathered some ideas below.
 
-- [ ] Add functionality for sending note on/off instead of CC messages
-- [ ] Use a stereo input jack for dual buttons
+- [x] Add functionality for sending note on/off instead of CC messages
+- [ ] Use a stereo input jack for dual buttons (https://github.com/ledeniz/midi-footswitch-converter/issues/6)
   - [ ] Bonus points for keeping the code compatible with mono jacks as well
+- [ ] Add polarity detection (https://github.com/ledeniz/midi-footswitch-converter/issues/11)
+- [ ] Add keyboard support (https://github.com/ledeniz/midi-footswitch-converter/issues/9)
 - [ ] Design a *nice* 3D printable case
-- [ ] Add schematics to this repo
+- [ ] Add schematics to this repo (https://github.com/ledeniz/midi-footswitch-converter/issues/8)
 
 ## License
 This document, the [photos](./img/) and [the source code](./midi_footswitch_converter.ino) is licensed under the [GPL v3](./LICENSE). The STL files are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
