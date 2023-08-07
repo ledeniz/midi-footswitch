@@ -5,15 +5,17 @@
 
 ## Description
 The goal of this project is to build a device that converts a simple analog on/off signal to a MIDI message. A [simple footswitch](https://archive.is/ykACL/2fbe0dc294888a247c4ef17947f29507e65076bb.jpg) or sustain pedal can be plugged into it and trigger the MIDI message over USB.
+I deliberately kept it quite simple to keep the source code hackable for Arduino beginners. For a similar but more advanced project, see the spirital successor https://github.com/ledeniz/arduino-multi-switch
 
 This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-libraries/MIDIUSB).
 
 ### Features
-- Acts as a native USB MIDI device
-- Configurable MIDI channel, CC number and on/off values
+- [x] Acts as a native USB MIDI device
+- [x] Configurable MIDI channel, CC number and on/off values
   - Note mode available: send a MIDI Note On/Off message (with or without CC)
-- Toggle Switch mode
-- Invert Setting
+- [x] Toggle Switch mode
+- [x] Invert setting
+- [ ] Pedal polarity detection
 
 See the section [Configuration](#configuration) for all supported settings.
 
@@ -73,26 +75,6 @@ const int  DEBOUNCE_MS = 30;
 
 //////// END of Configuration section
 ```
-
-## Roadmap
-- [x] Basic plug & play MIDI IO POC works
-- [x] Reading from digital input
-  - [x] Fix Debouncing
-  - [x] Configuration as momentary switch vs push button 
-- [x] Clean up the code
-  - [x] Changing channel, CC number, etc should be easy to customize
-- [x] Prototype a 3D printable case
-
-### Possible future plans
-At this point I consider the prototype as finished as I imagined it in the beginning. It does what I wanted and it seems to works reliably. I will now enter a testing phase and see what I want to improve in the future. I gathered some ideas below.
-
-- [x] Add functionality for sending note on/off instead of CC messages
-- [ ] Use a stereo input jack for dual buttons (https://github.com/ledeniz/midi-footswitch-converter/issues/6)
-  - [ ] Bonus points for keeping the code compatible with mono jacks as well
-- [ ] Add polarity detection (https://github.com/ledeniz/midi-footswitch-converter/issues/11)
-- [ ] Add keyboard support (https://github.com/ledeniz/midi-footswitch-converter/issues/9)
-- [ ] Design a *nice* 3D printable case
-- [ ] Add schematics to this repo (https://github.com/ledeniz/midi-footswitch-converter/issues/8)
 
 ## License
 This document, the [photos](./img/) and [the source code](./midi_footswitch_converter.ino) is licensed under the [GPL v3](./LICENSE). The STL files are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
