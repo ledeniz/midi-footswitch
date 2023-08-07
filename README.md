@@ -48,9 +48,9 @@ The device configuration is hard-coded. At the top of the sketch, you can find t
 const unsigned short MODE = MODE_NOTE; 
 
 // Act as a momentary switch (false) or toggle switch (true)
-const bool TOGGLE = true;
+const bool TOGGLE = false;
 // Inverts output values
-const bool INVERT = true;
+const bool INVERT = false;
 
 // MIDI channel 1-16, zero based
 const byte MIDI_CHANNEL = 0;
