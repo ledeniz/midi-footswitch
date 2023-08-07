@@ -15,7 +15,7 @@ This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-
   - Note mode available: send a MIDI Note On/Off message (with or without CC)
 - [x] Toggle Switch mode
 - [x] Invert setting
-- [ ] Pedal polarity detection
+  - To switch pedal polarity
 
 See the section [Configuration](#configuration) for all supported settings.
 
