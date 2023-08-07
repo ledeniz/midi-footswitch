@@ -5,7 +5,7 @@
 
 ## Description
 The goal of this project is to build a device that converts a simple analog on/off signal to a MIDI message. A [simple footswitch](https://archive.is/ykACL/2fbe0dc294888a247c4ef17947f29507e65076bb.jpg) or sustain pedal can be plugged into it and trigger the MIDI message over USB.
-I deliberately kept it quite simple to keep the source code hackable for Arduino beginners. For a similar but more advanced project, see the spirital successor https://github.com/ledeniz/arduino-multi-switch
+I deliberately kept it quite simple to keep the source code hackable for Arduino beginners. For a similar but more advanced project, see the spiritual successor https://github.com/ledeniz/arduino-multi-switch
 
 This code makes use of the Arduino library [MIDIUSB](https://github.com/arduino-libraries/MIDIUSB).
 
